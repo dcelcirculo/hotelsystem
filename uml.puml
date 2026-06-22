@@ -1,0 +1,89 @@
+@startuml
+
+class Hotel {
+    - id: Long
+    - nombre: String
+    - ciudad: String
+    - direccion: String
+    - categoria: Int
+    -telefono: String
+    - habitaciones: List<Habitacion>
+}
+
+' Relacion @OneToMany entre Hotel y Habitacion
+Hotel "1" -- "0..*" Habitacion : tiene
+
+class Habitacion {
+    - id: Long
+    - numero: String
+    - tipo: String
+    - precioNoche: Double
+    - disponible: Boolean
+    - hotel: Hotel
+}
+
+' Relacion @ManyToOne entre Habitacion y Hotel
+Habitacion "0..*" -- "1" Hotel : pertenece
+
+class Huesped {
+    - id: Long
+    - nombre: String
+    - apellido: String
+    - documentoIdentidad: String
+    - email: String
+    - perfilContacto: PerfilContacto
+    - reservas: List<Reserva>
+}
+
+' Realcion @OneToOne huesped y perfil de contacto
+Huesped "1" -- "1" PerfilContacto : tiene
+
+' Relacion @OneToMany entre Huesped y Reserva
+Huesped "1" -- "0..*" Reserva : realiza
+
+class PerfilContacto {
+    - id: Long
+    - telefono: String
+    - telefonoEmergencia: String
+    - direccion: String
+    - pais: String
+    - nacionalidad: String
+    - huesped: Huesped
+}
+
+' Relacion inversa @OneToOne entre PerfilContacto y Huesped
+PerfilContacto "1" -- "1" Huesped : pertenece
+
+class Reserva {
+    - id: Long
+    - fechaIngreso: LocalDate
+    - fechaSalida: LocalDate
+    - estado: String
+    - totalCalculado: Double
+    - huesped: Huesped
+    - habitacion: Habitacion
+    - servicios: List<Servicio>
+}
+
+' Relacion @ManyToOne reserva y huesped
+Reserva "0..*" -- "1" Huesped : realizada por
+' Reserva @ManyToOne reserva y habitacion
+Reserva "0..*" -- "1" Habitacion : para
+' Relacion @ManyToMany reserva y servicio
+Reserva "0..*" -- "0..*" Servicio : incluye
+
+class Servicio {
+    - id: Long
+    - nombre: String
+    - descripcion: String
+    - precio: Double
+    - disponible: Boolean
+    - reservas: List<Reserva>
+}
+
+' Relacion inversa @ManyToMany entre Servicio y Reserva
+Servicio "0..*" -- "0..*" Reserva : incluido en
+
+
+
+@enduml
