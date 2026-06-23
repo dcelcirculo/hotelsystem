@@ -3,7 +3,10 @@ package com.devsenior.hotelsystem.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,10 +32,14 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private LocalDate fechaIngreso;
+    @Column(nullable = false)
     private LocalDate fechaSalida;
 
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoReserva estado;
     private Double totalCalculado;
 
     @ManyToOne
@@ -44,6 +51,6 @@ public class Reserva {
     private Habitacion habitacion;
 
     @ManyToMany
-    @JoinTable(name = "reserva", joinColumns = @JoinColumn(name = "reserva_id"), inverseJoinColumns = @JoinColumn(name = "servicio_id"))
+    @JoinTable(name = "reserva_servicio", joinColumns = @JoinColumn(name = "reserva_id"), inverseJoinColumns = @JoinColumn(name = "servicio_id"))
     private List<Servicio> servicios;
 }

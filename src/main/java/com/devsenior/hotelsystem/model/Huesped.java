@@ -14,6 +14,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "huespedes")
@@ -23,12 +25,16 @@ public class Huesped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private String apellido;
 
     @Column(unique = true, nullable = false)
     private String documentoIdentidad;
 
+    @Email
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String email;
 
