@@ -16,7 +16,7 @@ Hotel "1" -- "0..*" Habitacion : tiene
 class Habitacion {
     - id: Long
     - numero: String
-    - tipo: String
+    - tipo: TipoHabitacion
     - precioNoche: Double
     - disponible: Boolean
     - hotel: Hotel
@@ -58,7 +58,7 @@ class Reserva {
     - id: Long
     - fechaIngreso: LocalDate
     - fechaSalida: LocalDate
-    - estado: String
+    - estado: EstadoReserva
     - totalCalculado: Double
     - huesped: Huesped
     - habitacion: Habitacion
@@ -84,6 +84,20 @@ class Servicio {
 ' Relacion inversa @ManyToMany entre Servicio y Reserva
 Servicio "0..*" -- "0..*" Reserva : incluido en
 
+enum TipoHabitacion {
+    SIMPLE
+    DOBLE
+    SUITE
+}
 
+Habitacion --> TipoHabitacion
 
+enum EstadoReserva {
+    PENDIENTE
+    CONFIRMADA
+    CANCELADA
+    COMPLETADA
+}
+
+Reserva --> EstadoReserva
 @enduml
