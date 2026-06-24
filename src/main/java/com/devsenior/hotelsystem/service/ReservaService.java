@@ -13,7 +13,7 @@ public interface ReservaService {
 
     Reserva crear(Reserva reserva);
 
-    Reserva actualizar(Long ide, Reserva reserva);
+    Reserva actualizar(Long id, Reserva reserva);
 
     void cancelar(Long id);
 
