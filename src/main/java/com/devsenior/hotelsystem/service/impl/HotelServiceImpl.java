@@ -9,16 +9,15 @@ import com.devsenior.hotelsystem.model.Hotel;
 import com.devsenior.hotelsystem.repository.HotelRepository;
 import com.devsenior.hotelsystem.service.HotelService;
 
-import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
+// Esta clase implementa la interfaz HotelService y contiene la lógica de negocio para manejar los hoteles. Utiliza el repositorio HotelRepository para interactuar con la base de datos y realizar operaciones CRUD sobre los hoteles. Además, implementa métodos para buscar hoteles por ciudad, nombre y disponibilidad de habitaciones.
 
 @Service
+@RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
-
-    public HotelServiceImpl(HotelRepository hotelRepository) {
-        this.hotelRepository = hotelRepository;
-    }
 
     @Override
     public List<Hotel> listarTodos() {
@@ -42,21 +41,26 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel actualizar(Long id, Hotel hotel) {
-        Hotel existente = hotelRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Hotel no encontrado con id: " + id));
+        Optional<Hotel> hotelExiste = hotelRepository.findById(id);
 
-        existente.setNombre(hotel.getNombre());
-        existente.setCiudad(hotel.getCiudad());
-        existente.setDireccion(hotel.getDireccion());
-        existente.setCategoria(hotel.getCategoria());
-        existente.setTelefono(hotel.getTelefono());
-        existente.setHabitaciones(hotel.getHabitaciones());
+        if (hotelExiste.isPresent()) {
+            Hotel hotelActualizado = hotelExiste.get();
 
-        return hotelRepository.save(existente);
+            hotelActualizado.setNombre(hotel.getNombre());
+            hotelActualizado.setCiudad(hotel.getCiudad());
+            hotelActualizado.setDireccion(hotel.getDireccion());
+            hotelActualizado.setCategoria(hotel.getCategoria());
+            hotelActualizado.setTelefono(hotel.getTelefono());
+            return hotelRepository.save(hotelActualizado);
+        }
+        throw new RuntimeException("Hotel no encontrado con id: " + id);
     }
 
     @Override
     public void eliminar(Long id) {
+        if (!hotelRepository.existsById(id)) {
+            throw new RuntimeException("Hotel no encontrado con id: " + id);
+        }
         hotelRepository.deleteById(id);
     }
 
@@ -64,5 +68,7 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> buscarConHabitacionesDisponibles() {
         return hotelRepository.findHotelesConHabitacionesDisponibles();
     }
+
+    // Implementación de los métodos de la interfaz HotelService
 
 }

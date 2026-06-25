@@ -17,6 +17,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+// Esta clase representa la tabla de la base de datos que contiene la información de los hoteles. Cada hotel tiene un id, nombre, ciudad, dirección, categoría y teléfono. Además, cada hotel puede tener varias habitaciones asociadas a él.
+// Solo contiene datos y relaciones, no contiene lógica de negocio. La lógica de negocio se encuentra en la clase HotelServiceImpl.
+
 @Entity
 @Table(name = "hotels")
 @Getter // Mejor uso esto en vez de @Data para evitar problemas de recursividad en las

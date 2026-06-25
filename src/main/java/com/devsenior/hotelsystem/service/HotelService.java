@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.devsenior.hotelsystem.model.Hotel;
 
+// Es una interfaz. Se define que puede hacer el servicio. Solo se escriben las firmas de los metodos, no se implementan.
+
 public interface HotelService {
 
     List<Hotel> listarTodos();

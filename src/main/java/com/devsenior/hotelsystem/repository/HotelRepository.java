@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.devsenior.hotelsystem.model.Hotel;
 
+// Se encarga de comunicarse con la base de datos y realizar operaciones CRUD sobre la tabla de hoteles. Extiende JpaRepository, lo que le permite heredar métodos para guardar, eliminar y buscar hoteles. Además, define métodos personalizados para buscar hoteles por ciudad, nombre y disponibilidad de habitaciones.
+// Solo sabe guardar y consultar datos.
+
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
     List<Hotel> findByCiudad(String ciudad);
 
